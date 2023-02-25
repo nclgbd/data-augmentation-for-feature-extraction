@@ -1,0 +1,113 @@
+# config/model/swin.yaml
+
+model_name: swin_unetr
+input_size: [96, 96]
+optimizer_name: Adam
+criterion_name: CrossEntropyLoss
+lr_scheduler_name: CosineAnnealingLR
+epochs: 50
+num_classes: 2
+non_blocking: true
+
+model_params:
+  img_size: [96, 96, 96]
+  depths: [2, 2, 2, 2]
+  num_heads: [3, 6, 12, 24]
+  in_channels: 1
+  normalize: true
+  feature_size: 48
+  out_channels: 1
+
+dataloader:
+  kwargs:
+    batch_size: 16
+    num_workers: 8
+    shuffle: true
+
+# Optional
+early_stopping:
+  kwargs:
+    patience: 50
+    metric_name: accuracy
+
+lr_schedulers:
+  CosineAnnealingLR:
+    kwargs:
+      T_max: 1000
+      eta_min: 0.0001
+      verbose: true
+
+configurations:
+  transfer:
+    additional_layers:
+      - MaxPool3d:
+          kwargs:
+            kernel_size: [3, 3, 3]
+
+      - Flatten:
+          kwargs:
+            start_dim: 1
+
+      - Linear:
+          kwargs:
+            in_features: 768
+            out_features: 2
+
+transforms:
+  load:
+    - LoadImage:
+        kwargs:
+          image_only: true
+
+    - AddChannel:
+        kwargs:
+
+    - ScaleIntensityRange:
+        kwargs:
+          a_max: 250.
+          a_min: -175.
+          b_max: 1.
+          b_min: 0.
+          clip: true
+
+    - EnsureType:
+        kwargs:
+          track_meta: false
+
+    - Resize:
+        kwargs:
+          spatial_size: [96, 96, 96]
+
+  train:
+    # - CropForeground:
+    #     kwargs:
+
+    - RandFlip:
+        kwargs:
+          spatial_axis: [0, 1, 2]
+          prob: 0.1
+
+    - RandRotate90:
+        kwargs:
+          prob: 0.1
+          max_k: 3
+
+    - RandShiftIntensity:
+        kwargs:
+          offsets: 0.1
+          prob: 0.5
+
+# losses
+criterions:
+  BCELoss:
+    kwargs:
+      reduction: mean
+  CrossEntropyLoss:
+    kwargs:
+      weight: null
+
+# optimizers
+optimizers:
+  Adam:
+    kwargs:
+      lr: 0.0005

@@ -1,0 +1,29 @@
+# config/run/upperbound-baseline.yaml
+_test: true
+debug: true
+device: gpu
+dry_run: false
+local: true
+random_state: 42
+set_track_meta: false
+
+# flags
+use_cv: false
+use_early_stopping: true
+use_lr_scheduler: true
+use_mlflow: true
+use_sampling: false
+use_transforms: true
+
+# different configurations available for the project
+holdout_size: 0.1
+log_interval: 5
+one_vs_all: true
+positive_class: A1
+sample_to_value: -1
+subset: null
+
+# function specific
+train_test_split:
+  kwargs:
+    test_size: 0.2

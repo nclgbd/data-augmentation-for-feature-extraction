@@ -1,0 +1,26 @@
+defaults:
+  - model: swin
+  - run: upperbound-baseline
+  - dataset: cbis-ddsm
+  # - __self__
+
+# dataset:
+#   # https://www.cancerimagingarchive.net/collections/
+#   root_dir: data/
+#   collection:
+#   target_name: label
+
+# model:
+
+# run:
+
+metrics:
+  Accuracy:
+    kwargs:
+
+  Loss:
+    kwargs:
+
+  # custom metrics
+  Predictions:
+    kwargs:

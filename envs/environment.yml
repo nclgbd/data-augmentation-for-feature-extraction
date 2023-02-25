@@ -1,0 +1,8 @@
+name: thesis_core
+channels:
+  - pytorch
+  - defaults
+  - nvidia
+  - conda-forge
+dependencies:
+  - pip
