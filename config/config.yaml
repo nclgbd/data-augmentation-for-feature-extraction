@@ -13,6 +13,9 @@ defaults:
 # model:
 
 # run:
+wandb:
+  project: thesis-work
+  entity: nclgbd
 
 metrics:
   Accuracy:

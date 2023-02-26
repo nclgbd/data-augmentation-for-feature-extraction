@@ -131,3 +131,4 @@ dmypy.json
 # project specific
 data/
 *.tar.gz
+**/assets/
